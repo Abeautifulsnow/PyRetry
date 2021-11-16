@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "pyretry"
+version = "0.1.0"
+description = "A nice tool for retrying tasks when they are failed."
+authors = ["Your Name <you@example.com>"]
+license = "MIT License"
+packages = [
+    { include = "src" },
+    { include = "src/retry/*.py" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+mock = "^4.0.3"
+pytest = "^6.2.5"
+poetry-core = "^1.0.7"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
