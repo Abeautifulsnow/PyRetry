@@ -1,12 +1,21 @@
 [tool.poetry]
-name = "pyretry"
-version = "0.1.0"
+name = "PyRetry"
+version = "0.0.2"
 description = "A nice tool for retrying tasks when they are failed."
-authors = ["Your Name <you@example.com>"]
+authors = ["Abeautifulsnow"]
 license = "MIT License"
 packages = [
     { include = "src" },
     { include = "src/retry/*.py" },
+]
+readme = "README.md"
+repository = "https://github.com/Abeautifulsnow/PyRetry"
+keywords = ["pyretry", "retry", "python", "python3"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
 ]
 
 [tool.poetry.dependencies]
