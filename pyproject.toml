@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "PyRetry"
+name = "py-retry"
 version = "0.0.2"
 description = "A nice tool for retrying tasks when they are failed."
 authors = ["Abeautifulsnow"]
