@@ -27,6 +27,7 @@ class UploadCommand:
         pass
 
     def git_commit_main(self) -> int:
+        self.status("Pushing git commits...")
         os.system("git add .")
         os.system('git commit -m "{0}"'.format(__version__))
         res_code = os.system("git push origin main")
