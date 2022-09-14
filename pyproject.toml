@@ -1,12 +1,11 @@
 [tool.poetry]
 name = "py-retry"
-version = "0.0.2"
+version = "0.0.4"
 description = "A nice tool for retrying tasks when they are failed."
 authors = ["Abeautifulsnow"]
 license = "MIT License"
 packages = [
-    { include = "src" },
-    { include = "src/retry/*.py" },
+    { include = "retry", from = "src" },
 ]
 readme = "README.md"
 repository = "https://github.com/Abeautifulsnow/PyRetry"
@@ -23,6 +22,7 @@ python = "^3.9"
 mock = "^4.0.3"
 pytest = "^6.2.5"
 poetry-core = "^1.0.7"
+toml = "^0.10.2"
 
 [tool.poetry.dev-dependencies]
 
