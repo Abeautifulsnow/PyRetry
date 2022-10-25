@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "py-retry"
-version = "0.0.4"
+version = "0.0.5"
 description = "A nice tool for retrying tasks when they are failed."
 authors = ["Abeautifulsnow"]
 license = "MIT License"
