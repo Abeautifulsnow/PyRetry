@@ -7,6 +7,8 @@ from typing import Callable, Union, Tuple, Optional, NewType, Any
 from .compat import decorator
 
 logging_logger = logging.getLogger(__name__)
+formatter = "%(asctime)s - %(name)s - L%(lineno)d - %(levelname)s - %(message)s"
+logging.basicConfig(format=formatter)
 T_Exception = NewType("T_Exception", Exception)
 
 
