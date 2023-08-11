@@ -156,7 +156,7 @@ def test_retry_call_with_args():
     result = None
     f_mock = MagicMock(spec=f, return_value=return_value)
     try:
-        result = retry_call(f_mock, fargs=[return_value])
+        result = retry_call(f_mock, f_args=[return_value])
     except RuntimeError:
         pass
 
@@ -175,7 +175,7 @@ def test_retry_call_with_kwargs():
     result = None
     f_mock = MagicMock(spec=f, return_value=kwargs["value"])
     try:
-        result = retry_call(f_mock, fkwargs=kwargs)
+        result = retry_call(f_mock, f_kwargs=kwargs)
     except RuntimeError:
         pass
 
