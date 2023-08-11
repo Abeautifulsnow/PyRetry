@@ -2,14 +2,16 @@ import logging
 import random
 import time
 from functools import partial
-from typing import Callable, Union, Tuple, Optional, NewType, Any
+from typing import Any, Callable, NewType, Optional, Tuple, TypeVar, Union
 
 from .compat import decorator
 
 logging_logger = logging.getLogger(__name__)
 formatter = "%(asctime)s - %(name)s - L%(lineno)d - %(levelname)s - %(message)s"
 logging.basicConfig(format=formatter)
+
 T_Exception = NewType("T_Exception", Exception)
+T_I_F = TypeVar("T_I_F", bound=Union[int, float])
 
 
 def __retry_internal(
@@ -19,7 +21,7 @@ def __retry_internal(
     delay: int = 0,
     max_delay: Optional[int] = None,
     backoff: int = 1,
-    jitter: Union[int, Tuple[int, ...]] = 0,
+    jitter: Union[T_I_F, Tuple[T_I_F, ...]] = 0,
     logger: Optional[logging.Logger] = logging_logger,
 ) -> Optional[Callable]:
     """
@@ -32,9 +34,9 @@ def __retry_internal(
     :param max_delay: the maximum value of delay. default: None (no limit).
     :param backoff: multiplier applied to delay between attempts. default: 1 (no backoff).
     :param jitter: extra seconds added to delay between attempts. default: 0.
-                   fixed if a number, random if a range tuple (min, max)
+                    fixed if a number, random if a range tuple (min, max)
     :param logger: logger.warning(fmt, error, delay) will be called on failed attempts.
-                   default: retry.logging_logger. if None, logging is disabled.
+                    default: retry.logging_logger. if None, logging is disabled.
     :returns: the result of the f function.
     """
     _tries, _delay = tries, delay
@@ -68,7 +70,7 @@ def retry(
     delay: int = 0,
     max_delay: Optional[int] = None,
     backoff: int = 1,
-    jitter: Union[int, Tuple[int, ...]] = 0,
+    jitter: Union[T_I_F, Tuple[T_I_F, ...]] = 0,
     logger: Optional[logging.Logger] = logging_logger,
 ) -> Callable:
     """Returns a retry decorator.
@@ -79,9 +81,9 @@ def retry(
     :param max_delay: the maximum value of delay. default: None (no limit).
     :param backoff: multiplier applied to delay between attempts. default: 1 (no backoff).
     :param jitter: extra seconds added to delay between attempts. default: 0.
-                   fixed if a number, random if a range tuple (min, max)
+                    fixed if a number, random if a range tuple (min, max)
     :param logger: logger.warning(fmt, error, delay) will be called on failed attempts.
-                   default: retry.logging_logger. if None, logging is disabled.
+                    default: retry.logging_logger. if None, logging is disabled.
     :returns: a retry decorator.
     """
 
@@ -112,7 +114,7 @@ def retry_call(
     delay: int = 0,
     max_delay: Optional[int] = None,
     backoff: int = 1,
-    jitter: Union[int, Tuple[int, ...]] = 0,
+    jitter: Union[T_I_F, Tuple[T_I_F, ...]] = 0,
     logger: Optional[logging.Logger] = logging_logger,
 ) -> Callable:
     """
@@ -127,9 +129,9 @@ def retry_call(
     :param max_delay: the maximum value of delay. default: None (no limit).
     :param backoff: multiplier applied to delay between attempts. default: 1 (no backoff).
     :param jitter: extra seconds added to delay between attempts. default: 0.
-                   fixed if a number, random if a range tuple (min, max)
+                    fixed if a number, random if a range tuple (min, max)
     :param logger: logger.warning(fmt, error, delay) will be called on failed attempts.
-                   default: retry.logging_logger. if None, logging is disabled.
+                    default: retry.logging_logger. if None, logging is disabled.
     :returns: the result of the f function.
     """
     args = f_args if f_args else []
