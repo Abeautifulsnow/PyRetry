@@ -2,7 +2,7 @@ import logging
 import random
 import time
 from functools import partial
-from typing import Any, Callable, NewType, Optional, TypeVar, Union
+from typing import Any, Callable, Optional, Union
 
 from .compat import decorator
 
@@ -10,18 +10,15 @@ logging_logger = logging.getLogger(__name__)
 formatter = "%(asctime)s - %(name)s - L%(lineno)d - %(levelname)s - %(message)s"
 logging.basicConfig(format=formatter)
 
-T_Exception = NewType("T_Exception", Exception)
-T_I_F = TypeVar("T_I_F", bound=Union[int, float])
-
 
 def __retry_internal(
     f: Callable,
-    exceptions: Union[T_Exception, tuple[T_Exception, ...]] = Exception,
+    exceptions: Union[Exception, tuple[Exception, ...]] = Exception,
     tries: int = -1,
     delay: int = 0,
     max_delay: Optional[int] = None,
     backoff: int = 1,
-    jitter: Union[T_I_F, tuple[T_I_F, ...]] = 0,
+    jitter: Union[Union[int, float], tuple[Union[int, float], ...]] = 0,
     logger: Optional[logging.Logger] = logging_logger,
 ) -> Optional[Callable]:
     """
@@ -61,12 +58,12 @@ def __retry_internal(
 
 
 def retry(
-    exceptions: Union[T_Exception, tuple[T_Exception, ...]] = Exception,
+    exceptions: Union[Exception, tuple[Exception, ...]] = Exception,
     tries: int = -1,
     delay: int = 0,
     max_delay: Optional[int] = None,
     backoff: int = 1,
-    jitter: Union[T_I_F, tuple[T_I_F, ...]] = 0,
+    jitter: Union[Union[int, float], tuple[Union[int, float], ...]] = 0,
     logger: Optional[logging.Logger] = logging_logger,
 ) -> Callable:
     """Returns a retry decorator.
@@ -105,12 +102,12 @@ def retry_call(
     f: Callable,
     f_args: Optional[Any] = None,
     f_kwargs: Optional[Any] = None,
-    exceptions: Union[T_Exception, tuple[T_Exception, ...]] = Exception,
+    exceptions: Union[Exception, tuple[Exception, ...]] = Exception,
     tries: int = -1,
     delay: int = 0,
     max_delay: Optional[int] = None,
     backoff: int = 1,
-    jitter: Union[T_I_F, tuple[T_I_F, ...]] = 0,
+    jitter: Union[Union[int, float], tuple[Union[int, float], ...]] = 0,
     logger: Optional[logging.Logger] = logging_logger,
 ) -> Callable:
     """
