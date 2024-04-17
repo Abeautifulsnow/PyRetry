@@ -39,25 +39,28 @@ def __retry_internal(
                     default: retry.logging_logger. if None, logging is disabled.
     :returns: the result of the f function.
     """
-    _tries, _delay = tries, delay
+    _delay = delay
 
-    while _tries:
+    while tries != 0:
         try:
             return f()
         except exceptions as e:
-            _tries -= 1
-            if not _tries:
+            tries -= 1 if tries > 0 else 0
+            if tries == 0:
                 raise
 
             if logger:
                 logger.warning(f"{e}, retrying in {_delay} seconds...")
 
             time.sleep(_delay)
-            _delay *= backoff
-
-            _delay += random.uniform(*jitter) if isinstance(jitter, tuple) else jitter
-            if max_delay:
-                _delay = min(_delay, max_delay)
+            jitter_value = (
+                random.uniform(*jitter) if isinstance(jitter, tuple) else jitter
+            )
+            _delay = (
+                min(_delay * backoff + jitter_value, max_delay)
+                if max_delay
+                else _delay * backoff + jitter_value
+            )
 
 
 def retry(
@@ -85,8 +88,8 @@ def retry(
 
     @decorator
     def retry_decorator(f: Callable, *f_args, **f_kwargs):
-        args = f_args if f_args else []
-        kwargs = f_kwargs if f_kwargs else {}
+        args = f_args or []
+        kwargs = f_kwargs or {}
         return __retry_internal(
             partial(f, *args, **kwargs),
             exceptions,
